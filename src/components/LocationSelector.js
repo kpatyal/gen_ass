@@ -2,14 +2,23 @@ import React from 'react';
 import { Dropdown, IDropdown, DropdownMenuItemType, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import {countries, states, cities, area } from '../data';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import DropDownMenu from "react-uwp/DropDownMenu";
 
+const baseStyle: React.CSSProperties = {
+  margin: "10px 20px 10px 0"
+};
 
 const LocationSelector = function(props) {
   console.log('props.selectedAreas=====', props)
     return (
         <div className="row">
         <div className="col-sm-2">
-        <Dropdown
+        <DropDownMenu
+          style={baseStyle}
+          values={countries}
+        />
+
+        {/*<Dropdown
                   placeHolder='Select Country'
                   id='Errormessagedrop1'
                   ariaLabel='Error message dropdown example'
@@ -105,7 +114,7 @@ const LocationSelector = function(props) {
                     onChanged={(item) => {
                       props.updateArea(item)
                     }}
-                  />
+                  />*/}
           </div>
 
           <div className="col-sm-2">

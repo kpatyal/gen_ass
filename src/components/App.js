@@ -12,6 +12,13 @@ import UserCard from './UserCard';
 import {getUser} from '../actions/userAction';
 import {addLocation, clearLocations} from '../actions/locationAction';
 
+import { Theme as UWPThemeProvider, getTheme } from "react-uwp/Theme";
+import ProgressRing from "react-uwp/ProgressRing";
+import DropDownMenu from "react-uwp/DropDownMenu";
+
+const baseStyle: React.CSSProperties = {
+  margin: "10px 20px 10px 0"
+};
 
 class App extends Component {
   constructor(props){
@@ -70,8 +77,17 @@ class App extends Component {
 
   render() {
     return (
+      <UWPThemeProvider
+        theme={getTheme({
+          themeName: "dark", // set custom theme
+          accent: "#0078D7", // set accent color
+          useFluentDesign: true, // sure you want use new fluent design.
+          desktopBackgroundImage: "http://127.0.0.1:8092/static/images/jennifer-bailey-10753.jpg" // set global desktop background image
+        })}
+      >
       <div className="App">
         <div className="container">
+
           <LocationSelector 
             selectedAreas={this.state.areas}
             selectedCountry={this.state.selectedCountry}
@@ -88,7 +104,8 @@ class App extends Component {
           <LocationList 
             locations={this.props.locations.locations} 
           />
-          
+
+
           <User 
             updateUserID={(data) => this.setState({userID: data})}
             getUserData={this.getUserData.bind(this)} 
@@ -105,6 +122,7 @@ class App extends Component {
           )}
         </div>
       </div>
+      </UWPThemeProvider>
     );
   }
 }

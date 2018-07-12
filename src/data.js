@@ -1,4 +1,4 @@
-export const countries = [
+/*export const countries = [
 	{
 		"name": "India",
 		"key": "IN"
@@ -11,39 +11,16 @@ export const countries = [
 		"name": "United State",
 		"key": "US"
 	}
-];
+];*/
+
+export const countries = ["India", "United Kingdom", "United State"];
+
+
 
 export const states = {
-	"IN": [
-		{
-			"name": "Karnataka",
-			"key": "KA"
-		},
-		{
-			"name": "Delhi",
-			"key": "DL"
-		}
-	],
-	"UK": [
-		{
-			"name": "England",
-			"key": "ENG"
-		},
-		{
-			"name": "Northern Ireland",
-			"key": "NIR"
-		}
-	],
-	"US": [
-		{
-			"name": "New York",
-			"key": "NY"
-		},
-		{
-			"name": "Texas",
-			"key": "TX"
-		}
-	],
+	"IN": ["Karnataka","Delhi"],
+	"UK": ["England", "Northern Ireland"],
+	"US": ["New York", "Texas"]
 	
 }
 
