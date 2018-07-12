@@ -11,7 +11,7 @@ import UserCard from './UserCard';
 
 import {getUser} from '../actions/userAction';
 import {addLocation, clearLocations} from '../actions/locationAction';
-
+import ProgressRing from "react-uwp/ProgressRing";
 
 class App extends Component {
   constructor(props){
@@ -95,7 +95,7 @@ class App extends Component {
           />
 
           {this.props.user.loading && (
-              <p>Loading data.!!</p>
+              <ProgressRing size={75} dotsNumber={4} />
             )}
            {this.props.user.noUser && (
               <p>No user exits.!!</p>
