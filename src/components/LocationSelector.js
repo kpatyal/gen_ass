@@ -16,8 +16,18 @@ const LocationSelector = function(props) {
         <DropDownMenu
           style={baseStyle}
           values={countries}
+          onChangeValue= (value) => {props.updateCountry(value)}
         />
-
+        <DropDownMenu
+          style={baseStyle}
+          values={states[props.selectedCountry]}}
+          onChangeValue= (value) => {props.updateState(value)}
+        />
+        <DropDownMenu
+          style={baseStyle}
+          values={cities[props.selectedState]}}
+          onChangeValue= (value) => {props.updateCity(value)}
+        />
         {/*<Dropdown
                   placeHolder='Select Country'
                   id='Errormessagedrop1'
