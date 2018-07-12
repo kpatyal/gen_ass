@@ -1,141 +1,97 @@
 import React from 'react';
+import {connect} from 'react-redux'
+import { bindActionCreators } from 'redux';
 import { Dropdown, IDropdown, DropdownMenuItemType, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import {countries, states, cities, area } from '../data';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import DropDownMenu from "react-uwp/DropDownMenu";
+import Button from "react-uwp/Button";
+import {addLocation, clearLocations} from '../actions/locationAction';
+
 
 const baseStyle: React.CSSProperties = {
   margin: "10px 20px 10px 0"
 };
 
-const LocationSelector = function(props) {
-  console.log('props.selectedAreas=====', props)
+const buttonBaseStyle: React.CSSProperties = {
+      margin: "10px 10px 10px 0"
+    };
+
+class LocationSelector extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      selectedCountry: "",
+      selectedState: "",
+      selectedCity: ""
+    }
+  }
+
+  addLocation(){
+    const {selectedCountry, selectedState, selectedCity} = this.state
+    const newLocation = {
+      selectedCountry,
+      selectedState,
+      selectedCity
+    }
+    if(selectedCountry && selectedState && selectedCity )
+      this.props.addLocation(newLocation)
+    else alert('Please select all options before adding');
+  }
+
+  clearLocations(){
+    this.props.clearLocations()
+  }
+  //console.log('props.selectedAreas=====', props)
+  render() {
+    console.log('=======this.state', this.state)
     return (
         <div className="row">
-        <div className="col-sm-2">
-        <DropDownMenu
-          style={baseStyle}
-          values={countries}
-          onChangeValue= (value) => {props.updateCountry(value)}
-        />
-        <DropDownMenu
-          style={baseStyle}
-          values={states[props.selectedCountry]}}
-          onChangeValue= (value) => {props.updateState(value)}
-        />
-        <DropDownMenu
-          style={baseStyle}
-          values={cities[props.selectedState]}}
-          onChangeValue= (value) => {props.updateCity(value)}
-        />
-        {/*<Dropdown
-                  placeHolder='Select Country'
-                  id='Errormessagedrop1'
-                  ariaLabel='Error message dropdown example'
-                  options={countries}
-                  selectedKey={ props.selectedCountry }
-                  onRenderTitle={option => (
-                   <div className='option' key={option[0].name}>
-                     <span>{option[0].name}</span>
-                   </div>
-        
-                 )}
-                  onRenderOption={ option => (
-                   <div className='option' key={option.name}>
-                     <span>{option.name}</span>
-                   </div>
-        
-                 )}
-                  onChanged={(item) => {
-                    props.updateCountry(item.key)
-                  }}
-                />
-                </div>
-          <div className="col-sm-2">
-            <Dropdown
-                  placeHolder='Select State'
-                  id='Errormessagedrop1'
-                  ariaLabel='Error message dropdown example'
-                  options={states[props.selectedCountry]}
-                  selectedKey={ props.selectedState }
-                  onRenderTitle={option => (
-                   <div className='option' key={option[0].name}>
-                     <span>{option[0].name}</span>
-                   </div>
-        
-                 )}
-                  disabled={!props.selectedCountry}
-                  onRenderOption={ option => (
-                   <div className='option' key={option.name}>
-                     <span>{option.name}</span>
-                   </div>
-        
-                 )}
-                  onChanged={(item) => {
-                    props.updateState(item.key)
-                  }}
+          <div className="col-sm-8">
+            <DropDownMenu
+              defaultValue={this.state.selectedCountry}
+              style={baseStyle}
+              values={countries}
+              onChangeValue= {(value) => this.setState({selectedCountry: value, selectedState: "", selectedCity: ""})}
+            />
+            <DropDownMenu
+              defaultValue={this.state.selectedState}
+              style={baseStyle}
+              values={states[this.state.selectedCountry]}
+              onChangeValue= {(value) => this.setState({selectedState: value})}
+              disabled
+            />
+            <DropDownMenu
+              defaultValue={this.state.selectedCity}
+              style={baseStyle}
+              values={cities[this.state.selectedState]}
+              onChangeValue= {(value) => this.setState({selectedCity: value})}
             />
           </div>
-          <div className="col-sm-2">
-            <Dropdown
-                  placeHolder='Select City'
-                  id='Errormessagedrop1'
-                  ariaLabel='Error message dropdown example'
-                  options={cities[props.selectedState]}
-                  selectedKey={ props.selectedCity }
-                  disabled={!props.selectedState}
-                  onRenderTitle={option => (
-                   <div className='option' key={option[0].name}>
-                     <span>{option[0].name}</span>
-                   </div>
-                 )}
-                  onRenderOption={ option => (
-                   <div className='option' key={option.name}>
-                     <span>{option.name}</span>
-                   </div>
-        
-                 )}
-                  onChanged={(item) => {
-                    props.updateCity(item.key)
-                  }}
-            />
+          <div className="col-sm-4">
+            <Button style={buttonBaseStyle} onClick={() => this.addLocation()} background="#0078D7">
+              Add
+            </Button>
+            <Button style={buttonBaseStyle} onClick={() => this.clearLocations()} background="#FFCDD2">
+              Clear
+            </Button>
+           {/* <PrimaryButton type='submit' className="add-button" onClick={(e) => this.props.addLocationToList()}>Add</PrimaryButton>
+            <PrimaryButton type='submit' className="clear-button" onClick={(e) => this.props.clearLocations()}>Clear</PrimaryButton>*/}
           </div>
-          <div className="col-sm-2">
-            <Dropdown
-                    placeHolder='Select Area'
-                    id='Errormessagedrop1'
-                    options={area[props.selectedCity]}
-                    selectedKey={ !props.selectedCity ? [] : props.areas }
-                    multiSelect
-                    disabled={!props.selectedCity}
-                    multiSelectDelimiter=","
-                    onRenderTitle={options => {
-                      return (
-                     <div className='option' key={options[0].name}>
-                       <span>{options.map((option) => option.name).join()}</span>
-                     </div>
-                   )}}
-                    onRenderOption={ option => (
-                     <div className='option' key={option.name}>
-                       <span>{option.name}</span>
-                     </div>
-          
-                   )}
-                    onChanged={(item) => {
-                      props.updateArea(item)
-                    }}
-                  />*/}
-          </div>
-
-          <div className="col-sm-2">
-            <PrimaryButton type='submit' className="add-button" onClick={(e) => props.addLocationToList()}>Add</PrimaryButton>
-          
-            <PrimaryButton type='submit' className="clear-button" onClick={(e) => props.clearLocations()}>Clear</PrimaryButton>
-          </div>
-                </div>
+        </div>
     );
 }
+}
 
-export default LocationSelector;
+const mapStateToProps = state => ({ user: state.user, locations: state.locations });
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        addLocation: addLocation,
+        clearLocations: clearLocations
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LocationSelector);
 
         

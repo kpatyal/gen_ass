@@ -79,7 +79,7 @@ class App extends Component {
     return (
       <UWPThemeProvider
         theme={getTheme({
-          themeName: "dark", // set custom theme
+          themeName: "light", // set custom theme
           accent: "#0078D7", // set accent color
           useFluentDesign: true, // sure you want use new fluent design.
           desktopBackgroundImage: "http://127.0.0.1:8092/static/images/jennifer-bailey-10753.jpg" // set global desktop background image
@@ -94,16 +94,14 @@ class App extends Component {
             selectedState={this.state.selectedState}
             selectedCity={this.state.selectedCity}
             updateArea= {this.updateSelectedAreas.bind(this)}
-            updateCountry = {(data) => this.setState({selectedCountry: data, selectedState: '', selectedCity: '', selectedAreas: [], areas: []})}
+            updateCountry = {(data) => this.setState({selectedCountry: data})}
             updateState = {(data) => this.setState({selectedState: data, selectedCity: '', selectedAreas: [], areas: []})}
             updateCity = {(data) => this.setState({selectedCity: data, selectedAreas: [], areas: []})}
             addLocationToList= {(e) => this.addLocationToList()}
             clearLocations = {(e) => this.props.clearLocations()}
           />
           
-          <LocationList 
-            locations={this.props.locations.locations} 
-          />
+          <LocationList />
 
 
           <User 
@@ -111,7 +109,7 @@ class App extends Component {
             getUserData={this.getUserData.bind(this)} 
           />
 
-          {this.props.user.loading && (
+          {/*this.props.user.loading && (
               <p>Loading data.!!</p>
             )}
            {this.props.user.noUser && (
@@ -119,14 +117,14 @@ class App extends Component {
             )}     
           {!this.props.user.loading && !this.props.user.noUser && this.props.user.id && (
             <UserCard user={this.props.user} />
-          )}
+          )*/}
         </div>
       </div>
       </UWPThemeProvider>
     );
   }
 }
-const mapStateToProps = state => ({ user: state.user, locations: state.locations });
+/*const mapStateToProps = state => ({ user: state.user, locations: state.locations });
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
@@ -134,6 +132,7 @@ const mapDispatchToProps = (dispatch) => {
         addLocation: addLocation,
         clearLocations: clearLocations
     }, dispatch);
-}
+}*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
+//export default connect(mapStateToProps, mapDispatchToProps)(App);
